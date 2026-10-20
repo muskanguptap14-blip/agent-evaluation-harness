@@ -1,0 +1,18 @@
+{
+  "name": "String cleaning challenge",
+  "prompt": "Improve the function so it cleans whitespace and handles empty input safely.",
+  "requirements": [
+    {
+      "name": "Whitespace cleanup",
+      "description": "The function should strip leading and trailing whitespace.",
+      "check": "clean-whitespace"
+    },
+    {
+      "name": "Empty input safety",
+      "description": "The function should return an empty string for empty or blank input.",
+      "check": "empty-safe"
+    }
+  ],
+  "expected_tests": ["pytest -q"],
+  "token_budget": 2500
+}

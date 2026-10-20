@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Eval Harness — PRD</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --ink: #1f2937;
+        --muted: #5b6475;
+        --line: #dfe7f4;
+        --accent: #3b82f6;
+        --accent-soft: #e0ecff;
+        --success: #1f9d55;
+        --warn: #d97706;
+        --danger: #dc2626;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 32px 18px 70px;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(180deg, var(--bg), #eef4ff);
+        color: var(--ink);
+      }
+      .shell {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: 0 10px 28px rgba(25, 41, 74, 0.04);
+        padding: 28px;
+      }
+      h1, h2, h3 {
+        margin-top: 0;
+      }
+      h1 {
+        font-size: 2.1rem;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        color: var(--muted);
+        margin-bottom: 28px;
+      }
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .meta div {
+        background: var(--accent-soft);
+        border: 1px solid #cfe1ff;
+        border-radius: 12px;
+        padding: 12px 14px;
+      }
+      .meta strong {
+        display: block;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+      .journey {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        margin: 22px 0;
+      }
+      .step {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fbfcff;
+        padding: 16px;
+      }
+      .step .num {
+        display: inline-flex;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .matrix {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      .matrix th, .matrix td {
+        border: 1px solid var(--line);
+        padding: 12px 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .matrix th {
+        background: #f2f6ff;
+      }
+      .pill {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+      .pass { background: rgba(31,157,85,0.12); color: var(--success); }
+      .fail { background: rgba(220,38,38,0.12); color: var(--danger); }
+      details {
+        background: #fafcff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-top: 16px;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      ul, ol {
+        padding-left: 22px;
+      }
+      li { margin: 6px 0; }
+      .legend {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="card">
+        <h1>Agent Eval Harness</h1>
+        <div class="subtitle">Product Requirements — a lightweight developer tool for testing AI coding agents against Python tasks and test suites.</div>
+
+        <div class="meta">
+          <div><strong>Audience</strong>Python developers testing AI coding agents</div>
+          <div><strong>Core goal</strong>Measure reliability, failures, and token cost</div>
+          <div><strong>Demo scope</strong>Short agent tasks with clear scoring</div>
+        </div>
+
+        <h2>The Core Journey</h2>
+        <div class="journey">
+          <div class="step"><div class="num">1</div>Open the harness and define a task or prompt.</div>
+          <div class="step"><div class="num">2</div>Choose quick prompt mode or a structured challenge file.</div>
+          <div class="step"><div class="num">3</div>Run the agent in a sandbox and monitor the work.</div>
+          <div class="step"><div class="num">4</div>Execute automated checks and capture pass/fail results.</div>
+          <div class="step"><div class="num">5</div>Review requirement-by-requirement scorecard and token usage.</div>
+          <div class="step"><div class="num">6</div>Refine prompts or constraints and retry.</div>
+        </div>
+
+        <h2>Screens and Layout</h2>
+        <ul>
+          <li><strong>Task input panel</strong> — quick prompt or challenge file upload/selection</li>
+          <li><strong>Run monitor</strong> — current task status and active changes</li>
+          <li><strong>Evaluation results</strong> — requirement scorecard, pass/fail matrix, and summary totals</li>
+          <li><strong>Metrics panel</strong> — token usage, success rate, and run health</li>
+        </ul>
+
+        <h2>Look and Feel</h2>
+        <p>The product should feel like a practical developer utility: minimal, transparent, and honest about failure. It should feel like a debugging interface for AI workflows: readable, structured, and efficient, with clear signals over visual flair.</p>
+
+        <h2>Features and Behavior</h2>
+
+        <details open>
+          <summary>Task Setup and Run Control</summary>
+          <ul>
+            <li>The user can enter a quick prompt or load a challenge file containing multiple prompts or assertions.</li>
+            <li>There is a clear “run” action and visible status during the task execution.</li>
+          </ul>
+        </details>
+
+        <details open>
+          <summary>Live Transparency</summary>
+          <ul>
+            <li>The user can see what the agent is doing while the run is in progress.</li>
+            <li>Key changes are visible without requiring a full log dump.</li>
+          </ul>
+        </details>
+
+        <details open>
+          <summary>Automated Evaluation</summary>
+          <ul>
+            <li>Once complete, the harness runs automated checks.</li>
+            <li>Each requirement or evaluation clause is shown as pass/fail.</li>
+          </ul>
+        </details>
+
+        <details open>
+          <summary>Metrics and Cost Visibility</summary>
+          <ul>
+            <li>Token usage is visible alongside the result summary.</li>
+            <li>The user can understand both correctness and cost at a glance.</li>
+          </ul>
+        </details>
+
+        <h2>Requirement-by-Requirement Matrix</h2>
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Requirement</th>
+              <th>Evidence</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Quick task prompt support</td>
+              <td>Single prompt run for fast checks</td>
+              <td><span class="pill pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>Structured challenge file support</td>
+              <td>JSON or YAML batch evaluation for stronger demonstration</td>
+              <td><span class="pill pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>Automated evaluation</td>
+              <td>Run tests or assertions after code generation</td>
+              <td><span class="pill pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>Visible pass/fail matrix</td>
+              <td>Requirement-level scoring for each condition</td>
+              <td><span class="pill pass">Pass</span></td>
+            </tr>
+            <tr>
+              <td>Token usage tracking</td>
+              <td>Cost signal included in the result summary</td>
+              <td><span class="pill pass">Pass</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="legend">
+          <span class="pill pass">Pass</span>
+          <span class="pill fail">Fail</span>
+        </div>
+
+        <h2>States and Boundaries</h2>
+        <ul>
+          <li><strong>Idle</strong> — ready to define a task or challenge.</li>
+          <li><strong>Running</strong> — agent is working and status is visible.</li>
+          <li><strong>Evaluating</strong> — tests are being run and metrics are being assembled.</li>
+          <li><strong>Completed</strong> — scorecard and token summary are available.</li>
+          <li><strong>Failure</strong> — required checks failed or the run did not complete successfully.</li>
+          <li><strong>Empty state</strong> — clear prompt to begin; no confusing blank screen.</li>
+        </ul>
+
+        <h2>What We're Building</h2>
+        <ul>
+          <li>Quick prompt and challenge-file inputs</li>
+          <li>Agent execution inside a controlled sandbox</li>
+          <li>Automated evaluation of Python tasks</li>
+          <li>Requirement-by-requirement pass/fail matrix</li>
+          <li>Token usage summary and success/failure snapshot</li>
+          <li>Readable developer-first output</li>
+        </ul>
+
+        <h2>Deferred From the POC</h2>
+        <ul>
+          <li>Persistent benchmark history</li>
+          <li>Multi-agent orchestration</li>
+          <li>Production-grade sandboxing</li>
+          <li>User accounts and shared workflows</li>
+        </ul>
+
+        <h2>Open Questions</h2>
+        <ul>
+          <li>The exact challenge file schema (JSON vs YAML) can be finalized in spec.</li>
+          <li>The user wants a requirement-by-requirement scorecard; this is now a confirmed product decision.</li>
+          <li>The final result view can be terminal-first or lightweight UI depending on the technical implementation.</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

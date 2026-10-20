@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Eval Harness App Map</title>
+    <style>
+      body {
+        font-family: Segoe UI, sans-serif;
+        background: #f4f7fb;
+        color: #152231;
+        margin: 0;
+        padding: 32px 18px 48px;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #dfe6f3;
+        border-radius: 18px;
+        padding: 24px 28px 30px;
+      }
+      h1 { margin-top: 0; }
+      .diagram {
+        margin: 18px 0 28px;
+        padding: 18px;
+        border: 1px solid #dfe6f3;
+        border-radius: 12px;
+        background: #fafcff;
+      }
+      .route {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+      }
+      .card {
+        border: 1px solid #dfe6f3;
+        border-radius: 12px;
+        padding: 12px 14px;
+        background: #fbfcff;
+      }
+      code { background: #eef3ff; padding: 2px 6px; border-radius: 6px; }
+      details { margin-top: 20px; }
+      summary { cursor: pointer; font-weight: 600; }
+      ul { padding-left: 18px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Agent Eval Harness App Map</h1>
+      <p>This tool is a local Python harness that turns an AI-coded task into a visible evaluation report: it validates input, runs the project in a sandbox, runs pytest, and prints a pass/fail matrix with token usage.</p>
+
+      <div class="diagram">
+        <strong>Flow:</strong><br />
+        prompt or challenge file → <code>agent_eval/cli.py</code> → <code>agent_eval/models.py</code> → sandboxed project → <code>agent_eval/evaluator.py</code> → pass/fail matrix + summary
+      </div>
+
+      <h2>What the app does</h2>
+      <ul>
+        <li>Accepts a quick prompt or a JSON challenge file.</li>
+        <li>Validates the challenge data with Pydantic models.</li>
+        <li>Copies a local sample project into a temporary sandbox.</li>
+        <li>Runs pytest and records results for each requirement.</li>
+        <li>Prints a readable summary: pass/fail count, requirement matrix, and token usage.</li>
+      </ul>
+
+      <h2>Route through the code</h2>
+      <div class="route">
+        <div class="card">
+          <strong>Start here</strong><br />
+          <code>agent_eval/cli.py</code><br />
+          Parses arguments and launches the evaluation flow.
+        </div>
+        <div class="card">
+          <strong>Data contract</strong><br />
+          <code>agent_eval/models.py</code><br />
+          Defines challenge and result shape.
+        </div>
+        <div class="card">
+          <strong>Task loading</strong><br />
+          <code>agent_eval/challenge.py</code><br />
+          Reads JSON challenge files and validates them.
+        </div>
+        <div class="card">
+          <strong>Execution</strong><br />
+          <code>agent_eval/runner.py</code><br />
+          Creates a temp sandbox and runs pytest.
+        </div>
+        <div class="card">
+          <strong>Scoring</strong><br />
+          <code>agent_eval/evaluator.py</code><br />
+          Turns output into requirement-by-requirement results.
+        </div>
+        <div class="card">
+          <strong>Display</strong><br />
+          <code>agent_eval/reporter.py</code><br />
+          Prints the pass/fail matrix and summary.
+        </div>
+      </div>
+
+      <details>
+        <summary>To change the evaluation behavior, start here</summary>
+        <ul>
+          <li>Update <code>agent_eval/evaluator.py</code> to change how results are computed and mapped to requirements.</li>
+          <li>Update <code>agent_eval/runner.py</code> to alter how the project is copied or tested in the sandbox.</li>
+          <li>Update <code>sample_project/test_cleaner.py</code> to try a different test or edge case.</li>
+        </ul>
+      </details>
+
+      <h2>Practice to reuse</h2>
+      <p>Define the observable result before building the mechanism. In this project, the requirement-by-requirement scorecard made the check explicit: the app didn't just say “pass” or “fail,” it linked the result to a real requirement and a real test signal.</p>
+
+      <h2>How to run it again</h2>
+      <p><code>python -m agent_eval --challenge challenges/sample.json --project sample_project</code></p>
+
+      <p>This map reflects the current project snapshot and can drift if the code changes later; rerun it after significant edits.</p>
+    </div>
+  </body>
+</html>
