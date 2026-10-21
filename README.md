@@ -1,39 +1,80 @@
 # Agent Eval Harness
 
-A lightweight local Python CLI for evaluating code-generation tasks against automated tests and reporting pass/fail results with token-usage visibility.
+A small, local Python command-line tool that runs a project's tests in a temporary copy and displays a clear evaluation summary.
 
-## What it does
+## Try it in a few minutes
 
-- Accepts either a quick prompt or a structured JSON challenge file
-- Validates the task definition before running
-- Creates a temporary sandboxed copy of the target project
-- Runs pytest against the sandboxed code
-- Produces a requirement-by-requirement pass/fail matrix
-- Summarizes token usage and overall evaluation status
+You will need **Python 3.11 or newer** and an internet connection for the one-time package installation.
 
-## Why this exists
+### 1. Download the project
 
-This project is a proof-of-concept harness for developers who want a small, local way to compare AI-generated code against a test suite without needing a hosted service or UI-heavy workflow.
+Choose either option:
 
-## Local run
+- **Download ZIP:** Select the green **Code** button on this GitHub page, choose **Download ZIP**, then extract the downloaded file.
+- **Use Git:** Open a terminal and run:
+
+  ```bash
+  git clone https://github.com/muskanguptap14-blip/agent-evaluation-harness.git
+  cd agent-evaluation-harness
+  ```
+
+If you downloaded the ZIP, open a terminal in the extracted `agent-evaluation-harness` folder before continuing.
+
+### 2. Install the project
+
+Run these commands from the project folder:
 
 ```bash
 python -m pip install -e .
-python -m agent_eval --help
+```
+
+On Windows, if `python` is not recognized, use the Python launcher instead:
+
+```powershell
+py -m pip install -e .
+```
+
+### 3. Run the sample evaluation
+
+```bash
 python -m agent_eval --challenge challenges/sample.json --project sample_project
 ```
 
-## Project structure
+On Windows, use `py` instead of `python` if needed:
 
-- `agent_eval/` – CLI, validation models, runner, evaluator, and reporting
-- `challenges/` – example challenge definitions
-- `sample_project/` – local sample project used to verify the harness
-- `devpost/` – planning and build artifacts
+```powershell
+py -m agent_eval --challenge challenges/sample.json --project sample_project
+```
 
-## Privacy note
+The sample should finish with **Status: PASSED**, show two passed requirements, and print the test evidence. The harness makes a temporary copy of the project, runs pytest there, and removes the temporary copy when the run ends.
 
-The file `devpost/learner-profile.md` contains personal learning notes and is intentionally excluded from version control by default. Keep it private and do not publish it to a public repository.
+### 4. See the available options
 
-## License
+```bash
+python -m agent_eval --help
+```
 
-This project is provided as a local learning/prototype project.
+You can also provide a one-off task:
+
+```bash
+python -m agent_eval --task "Check the sample project" --project sample_project
+```
+
+## What this proof of concept does
+
+- Accepts a quick task or a JSON challenge file
+- Runs pytest against the chosen local Python project in a temporary copy
+- Displays the overall test result, requirement rows, and test output
+
+**Current limitation:** this proof of concept evaluates a project that already exists; it does not call an AI model or generate code. All requirement rows currently reflect the overall pytest result, rather than running a separate test for each requirement. The displayed token-usage value is an estimate from the available text, not usage reported by an AI provider.
+
+## Project layout
+
+- `agent_eval/` - CLI, challenge validation, test runner, and report
+- `challenges/` - sample JSON challenge
+- `sample_project/` - small project used for the sample run
+- `devpost/` - project planning and build artifacts
+
+## Privacy
+
+Personal learner-profile notes are not included in this public repository.
