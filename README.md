@@ -46,7 +46,32 @@ On Windows, use `py` instead of `python` if needed:
 py -m agent_eval --challenge challenges/sample.json --project sample_project
 ```
 
-The sample should finish with **Status: PASSED**, show two passed requirements, and print the test evidence. The harness makes a temporary copy of the project, runs pytest there, and removes the temporary copy when the run ends.
+You should see an output like this:
+
+```text
+Challenge: String cleaning challenge
+Prompt: Improve the function so it cleans whitespace and handles empty input safely.
+Requirements: 2
+Project: sample_project
+
+=== Evaluation Summary ===
+Status: PASSED
+Total requirements: 2
+Passed: 2
+Failed: 0
+Token usage: 174
+Duration: 0.00s
+
+Requirement matrix:
+- Whitespace cleanup: PASS — pytest passed
+  Evidence: ..                                                                       [100%]
+2 passed in 0.05s
+- Empty input safety: PASS — pytest passed
+  Evidence: ..                                                                       [100%]
+2 passed in 0.05s
+```
+
+The exact duration and pytest timing may vary. The harness makes a temporary copy of the project, runs pytest there, and removes the temporary copy when the run ends.
 
 ### 4. See the available options
 
